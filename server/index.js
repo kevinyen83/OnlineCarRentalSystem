@@ -2,55 +2,66 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql2");
 const cors = require("cors");
-const fs = require("fs")
-import cars from "clint/public/cars.json";
 
 app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
   user: "root",
-  host: "localhost",
+  host: "127.0.0.1",
   password: "Tmups9351007*",
-  database: "Renting_History",
+  database: "car_rental_system",
   port: 3306,
 });
 
 app.post("/create", (req, res) => {
-  const user_email = req.body.email;
-  const rent_date = new Date().toLocaleString();
-  const rental_items = req.session.cartItems;
-  const bond_amount = req.session.lastRentDate && (Date.now() - req.session.lastRentDate) < 7776000000 ? 0 : 200; // check if user has rented within past 3 months
+  const email = req.body.email;
+  const rent_date = new Date().toISOString().replace("T", " ").replace("Z", "");
+    let bond_amount = 200;
+  const totalPrice = req.body.totalPrice;
 
   db.query(
-    "INSERT INTO Renting_History (user_email, rent_date, rental_items, bond_amount) VALUES (?, ?, ?, ?)",
-    [user_email, rent_date, JSON.stringif(rental_items), bond_amount],
+    "SELECT rent_date FROM Renting_History WHERE email = ? ORDER BY rent_date DESC LIMIT 1",
+    [email],
     (err, result) => {
       if (err) {
         console.log(err);
       } else {
-        res.send("Booking added to Renting_History table.");
+        if (result.length > 0) {
+          const lastRentDate = new Date(result[0].rent_date);
+          const threeMonthsAgo = new Date();
+          threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+          if (lastRentDate >= threeMonthsAgo) {
+            bond_amount = 0; // Set bond amount to 0 if user rented within the past three months
+          }
+        }
+
+        db.query(
+          "INSERT INTO Renting_History (email, rent_date, bond_amount, totalPrice) VALUES (?, ?, ?, ?)",
+          [email, rent_date, bond_amount, totalPrice],
+          (err, result) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.send("Booking added to Renting_History table.");
+            }
+          }
+        );
       }
     }
   );
 });
 
-// Update the availability of booked cars in cars.json file
-const cars = JSON.parse(fs.readFileSync("cars.json", "utf-8"));
-rental_items.forEach(item => {
-  const carIndex = cars.findIndex(car => car.id === item.id);
-  if (carIndex !== -1) {
-    cars[carIndex].availability = false;
-  }
+app.get("/Renting_History", (req, res) => {
+  db.query("SELECT * FROM Renting_History", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
 });
-fs.writeFileSync("cars.json", JSON.stringify(cars));
-
-// Clear shopping cart session
-req.session.cartItems = [];
-
-// Notify the user of successful booking
-res.status(200).send("Booking successful!");
 
 app.listen(3001, () => {
-  console.log("Yey, your server is running on port 3001");
+  console.log("Yay, your server is running on port 3001");
 });

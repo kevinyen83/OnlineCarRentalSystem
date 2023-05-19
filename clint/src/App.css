@@ -143,7 +143,7 @@
     
     .mainArea-card {
       width: 240px;
-      height: 550px;
+      height: 600px;
       padding: 11px;
       margin: 10px;
       border: 1px ridge rgba(211, 211, 211, 0.661);
@@ -328,10 +328,7 @@
       width: 90%;
       align-items: center;
   }
-  
-  .cart-item-card-container {
-  }
-  
+
   .cart-item-card {
   display: grid;
   grid-template-columns: 1fr 1fr;

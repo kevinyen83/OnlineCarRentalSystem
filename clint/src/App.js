@@ -1,6 +1,7 @@
 import logo from "/Users/net/car-rental-system/clint/src/components/assets/images/logo.png";
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
 
 function App() {
     const [cartItems, setCartItems] = useState([]);
@@ -10,6 +11,7 @@ function App() {
     const [cartPopup, setCartPopup] = useState(false);
     const [reservationDays, setReservationDays] = useState(1);
     const [lastId, setLastId] = useState(0);
+    const [bookingStatus, setBookingStatus] = useState(false);
 
         const [firstName, setFirstName] = useState("");
         const [lastName, setLastName] = useState("");
@@ -59,25 +61,25 @@ function App() {
           };
         }
 
-        componentDidMount() {
-          fetch("/cars.json")
-            .then(res => res.json())
-            .then(
-              (result) => {
-                this.setState({
-                  isLoaded: true,
-                  cars: result.cars
-                });
-              },
-              (error) => {
-                this.setState({
-                  isLoaded: true,
-                  error
-                });
-              }
-            )
-        }
-      
+    componentDidMount() {
+        fetch("/cars.json")
+        .then(res => res.json())
+        .then(
+            (result) => {
+            this.setState({
+                isLoaded: true,
+                cars: result.cars
+            });
+            },
+            (error) => {
+            this.setState({
+                isLoaded: true,
+                error
+            });
+            }
+        )
+    }
+    
         render() {
             const { error, isLoaded, cars } = this.state;
                 if (error) {
@@ -93,6 +95,8 @@ function App() {
                                     <div className="mainArea-card" key={car.id}>
                                         <img className= "mainArea-img" src={car.image}></img>
                                         <h3 className="mainArea-name">{car.name}</h3>
+                                        <p className="mainArea-title"><b>brand: </b>{car.brand}</p> 
+                                        <p className="mainArea-title"><b>model: </b>{car.model}</p>
                                         <p className="mainArea-title"><b>mileage: </b>{car.mileage} kms</p>
                                         <p className="mainArea-title"><b>fuel_type: </b>{car.fuel_type}</p> 
                                         <p className="mainArea-title"><b>seats: </b>{car.seats}</p>
@@ -178,32 +182,49 @@ const tableRows = cartItems.map((item) => {
 
     const bookingCar = (event) => {
         event.preventDefault();
-    if (firstName && lastName && email && address && city && state && postCode && paymentType !== " ") {
-        setShowForm(false); 
-        setCartItems([]);
-        setIsCartEmpty(true);       
-    // Handle form submission here, e.g. submit data to a server or show a confirmation message
-        setShowForm(false);
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setAddress("");
-        setCity("");
-        setState("");
-        setPostCode("");
-        setPaymentType("");
-        alert("Order placed successfully!");
-  } else {
-    alert("Please fill in all fields.")
-  }
-};
+        if (firstName && lastName && email && address && city && state && postCode && paymentType !== " ") {
+          if (email.includes("@")) {
+            Axios.post("http://localhost:3001/create", {
+                email: email,
+                totalPrice: totalPrice,
+                    }).then(() => {
+                    console.log("success");
+                    });
+
+            setShowForm(false);
+            setCartItems([]);
+            setIsCartEmpty(true);
+            setShowForm(false);
+
+            setFirstName("");
+            setLastName("");
+            setEmail("");
+            setAddress("");
+            setCity("");
+            setState("");
+            setPostCode("");
+            setPaymentType("");
+            
+            alert("Order placed successfully!");
+            console.log("Form submitted", email, totalPrice);
+
+          } else {
+            alert("It's not a valid email address");
+          }
+        } else {
+          alert("Please fill in all fields.");
+        }
+      };
+
+
+      
 
     return (
     <>
     {/* NavBar */}
     <nav className='navBar-setting navBar-menu-text nav-container'>
         <div className="nav-container-item"><img className='logo' src={logo} alt='Logo'/></div>
-        <div className="shoppingCart-item"><h1>Car Rental Center</h1></div> 
+        <div className="shoppingCart-item"><h1>Hertz-UTS</h1></div> 
         <botton className="reservation-btn" onClick={toggleCartPopup}>Car Reservation ({cartItems.length})</botton>
     </nav>
         
