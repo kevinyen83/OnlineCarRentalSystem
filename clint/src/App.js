@@ -1,7 +1,8 @@
 import logo from "/Users/net/car-rental-system/clint/src/components/assets/images/logo.png";
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Axios from "axios";
+
 
 function App() {
     const [cartItems, setCartItems] = useState([]);
@@ -11,7 +12,9 @@ function App() {
     const [cartPopup, setCartPopup] = useState(false);
     const [reservationDays, setReservationDays] = useState(1);
     const [lastId, setLastId] = useState(0);
-    const [bookingStatus, setBookingStatus] = useState(false);
+    const [isEmailValidated, setIsEmailValidated] = useState(false);
+    const [bondValue, setBondValue] = useState("?");
+    const [hasRentingHistory, setHasRentingHistory] = useState(false);
 
         const [firstName, setFirstName] = useState("");
         const [lastName, setLastName] = useState("");
@@ -27,7 +30,7 @@ function App() {
     };
 
     const addToCart = (car) => {
-     fetch("/cars.json")
+     fetch("http://localhost:3001/cars.json")
     .then(res => res.json())
     .then(data => {
       const availableCars = data.cars.filter(c => c.id === car.id && c.availability === "Yes");
@@ -62,7 +65,7 @@ function App() {
         }
 
     componentDidMount() {
-        fetch("/cars.json")
+        fetch("http://localhost:3001/cars.json")
         .then(res => res.json())
         .then(
             (result) => {
@@ -95,7 +98,7 @@ function App() {
                                     <div className="mainArea-card" key={car.id}>
                                         <img className= "mainArea-img" src={car.image}></img>
                                         <h3 className="mainArea-name">{car.name}</h3>
-                                        <p className="mainArea-title"><b>brand: </b>{car.brand}</p> 
+                                        <p className="mainArea-title"><b>category: </b>{car.category}</p> 
                                         <p className="mainArea-title"><b>model: </b>{car.model}</p>
                                         <p className="mainArea-title"><b>mileage: </b>{car.mileage} kms</p>
                                         <p className="mainArea-title"><b>fuel_type: </b>{car.fuel_type}</p> 
@@ -173,51 +176,113 @@ const tableRows = cartItems.map((item) => {
         setTotalPrice(
             cartItems.reduce((total, item) => total + item.price_per_day * item.reservationDays, 0)
         );
-        setCartItems([]);
         setCartPopup(false);
         } else {
             alert("Invaild Input Value!")
         }
     };
+  
+    const updateCarAvailability = () => {
+        fetch("http://localhost:3001/cars.json")
+            .then((res) => res.json())
+            .then((data) => {
+            const updatedCars = data.cars.map((car) => {
+                const foundCartItem = cartItems.find(
+                (item) => item.name === car.name
+                );
+                if (foundCartItem) {
+                return {
+                    ...car,
+                    availability: "No"
+                };
+                }
+                return car;
+            });
+        
+            fetch("http://localhost:3001/cars.json", {
+                method: "PUT",
+                headers: {
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ cars: updatedCars })
+            })
+                .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Failed to update car availability.");
+                }
+                console.log("Car availability updated successfully.");
+                })
+                .catch((error) => {
+                console.error(error);
+                });
+            })
+            .catch((error) => {
+            console.error(error);
+            });
+        };
 
-    const bookingCar = (event) => {
+    const bookingCar = (event, car) => {
         event.preventDefault();
-        if (firstName && lastName && email && address && city && state && postCode && paymentType !== " ") {
-          if (email.includes("@")) {
-            Axios.post("http://localhost:3001/create", {
-                email: email,
-                totalPrice: totalPrice,
-                    }).then(() => {
-                    console.log("success");
-                    });
-
-            setShowForm(false);
-            setCartItems([]);
-            setIsCartEmpty(true);
-            setShowForm(false);
-
-            setFirstName("");
-            setLastName("");
-            setEmail("");
-            setAddress("");
-            setCity("");
-            setState("");
-            setPostCode("");
-            setPaymentType("");
-            
-            alert("Order placed successfully!");
-            console.log("Form submitted", email, totalPrice);
-
-          } else {
-            alert("It's not a valid email address");
-          }
+            if (firstName && lastName && email && address && city && state && postCode && paymentType !== " ") {
+                if (email.includes("@")) {
+                    if (isEmailValidated != true){
+                        alert("Please validate your Email first")
+                    } else {
+                    Axios.post("http://localhost:3001/create", {
+                        email: email,
+                        totalPrice: totalPrice,
+                            }).then(() => {
+                            console.log("success");
+                            });
+                    updateCarAvailability(cartItems)
+                    
+                    setShowForm(false);
+                    setCartItems([]);
+                    setIsCartEmpty(true);
+                    setShowForm(false);
+        
+                    setFirstName("");
+                    setLastName("");
+                    setEmail("");
+                    setAddress("");
+                    setCity("");
+                    setState("");
+                    setPostCode("");
+                    setPaymentType("");
+                    
+                    alert("Order placed successfully!");
+                    console.log("Form submitted", email, totalPrice);                    
+                    }
+            } else {
+                alert("It's not a valid email address");
+                }
         } else {
-          alert("Please fill in all fields.");
+            alert("Please fill in all fields.");
         }
       };
 
-
-      
+      const validateEmail = () => {
+        Axios.post("http://localhost:3001/validateEmail", { email })
+          .then(response => {
+            const { hasRentingHistory } = response.data;
+            setHasRentingHistory(hasRentingHistory);
+            console.log("A" + hasRentingHistory)
+            setIsEmailValidated(true);
+            if (email !== " " && email.includes("@")) {
+                console.log("B" + hasRentingHistory)
+                if (hasRentingHistory == true){
+                    setBondValue(0)
+                } else if (hasRentingHistory == false) {
+                    setBondValue(200)
+                }
+          } else {
+            alert("Please fill in the email field with a valid email address");
+          }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      };
 
     return (
     <>
@@ -317,8 +382,9 @@ const tableRows = cartItems.map((item) => {
                                         name="email"
                                         id="email"
                                         value={email}
-                                        onChange={(event) => setEmail(event.target.value)}
+                                        onChange={(event) => setEmail(event.target.value)}          
                                     />
+                                <button type="button" onClick={validateEmail}>Validate Email</button>
                             </div>
 
                             <div className="order-form-item">
@@ -381,9 +447,10 @@ const tableRows = cartItems.map((item) => {
                         </div>
                         </form>
                     <div className="order-form-footer">
-                    <div className="order-form-price"><h3>Total Price: ${totalPrice.toFixed(2)}</h3></div>
-                            <button type="button" onClick={checkout}>Continue Selection</button>
-                            <button type="submit" onClick={bookingCar}>Booking</button>     
+                        <div className="order-form-price"><h3>Total Price: ${totalPrice.toFixed(2)}</h3></div>
+                        <div className="order-form-price"><h3>Bond: ${bondValue}</h3></div>                        
+                        <button type="button" onClick={checkout}>Continue Selection</button>
+                        <button type="submit" onClick={bookingCar}>Booking</button>     
                     </div>
                 </div>
             </div>

@@ -424,7 +424,7 @@
       display: grid;
       width: 80%;
       background-color:white;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
       z-index: 10;
       bottom: 16%;
   }
