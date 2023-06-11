@@ -2,7 +2,8 @@ import logo from "/Users/net/car-rental-system/clint/src/components/assets/image
 import "./App.css";
 import React, { useState } from "react";
 import Axios from "axios";
-
+import CategoryBar from "/Users/net/car-rental-system/clint/src/components/CategoryBar.js";
+import categoryList from './components/categoryList';
 
 function App() {
     const [cartItems, setCartItems] = useState([]);
@@ -56,13 +57,13 @@ function App() {
 
     class CarBrowsing extends React.Component {
         constructor(props) {
-          super(props);
-          this.state = {
+        super(props);
+        this.state = {
             error: null,
             isLoaded: false,
             items: []
-          };
-        }
+        };
+    }
 
     componentDidMount() {
         fetch("http://localhost:3001/cars.json")
@@ -91,11 +92,10 @@ function App() {
                 return <div>Loading...</div>;
                 } else {
                 return (
-                    <div className="car-list">
                         <div className="main-area">
                             <div className="mainArea-card-container">
                                 {cars.map(car => (
-                                    <div className="mainArea-card" key={car.id}>
+                                    <div className="mainArea-card-item" key={car.id}>
                                         <img className= "mainArea-img" src={car.image}></img>
                                         <h3 className="mainArea-name">{car.name}</h3>
                                         <p className="mainArea-title"><b>category: </b>{car.category}</p> 
@@ -114,7 +114,6 @@ function App() {
                                 ))}
                             </div>
                         </div>
-                </div>
                 )
             }
     }
@@ -275,188 +274,199 @@ const tableRows = cartItems.map((item) => {
                 } else if (hasRentingHistory == false) {
                     setBondValue(200)
                 }
-          } else {
+        } else {
             alert("Please fill in the email field with a valid email address");
-          }
-          })
-          .catch(error => {
+        }
+        })
+        .catch(error => {
             console.error(error);
-          });
-      };
+        });
+    };
 
     return (
     <>
     {/* NavBar */}
-    <nav className='navBar-setting navBar-menu-text nav-container'>
-        <div className="nav-container-item"><img className='logo' src={logo} alt='Logo'/></div>
-        <div className="shoppingCart-item"><h1>Hertz-UTS</h1></div> 
-        <botton className="reservation-btn" onClick={toggleCartPopup}>Car Reservation ({cartItems.length})</botton>
+    <nav className="navBar-container">
+        <div className="navBar-container-brand">
+            <div className="navBar-container-item">
+                <img className="navBar-container-logo" src={logo} alt="Logo"/>
+            </div>
+            <div className="navBar-container-item">
+                <CategoryBar categoryList={categoryList} />
+            </div>
+            <div></div>
+            <div></div>
+            <div className="navBar-container-item">
+                <div className="navBar-container-reservationBtn" onClick={toggleCartPopup}>Car Reservation ({cartItems.length})</div>
+            </div>
+        </div>
     </nav>
-        
     <body>
-     {/* main-area */}
-      <CarBrowsing/>
-        
-    {/* cart-popup */}
-    {cartPopup &&(
-    <div className="popup-cart">
-        <div className="overlay"></div>
-        <div className="cart-container">
-        <div className="cart-row">
-            <div className="cart-content">
-                <div className="cart-header">
-                    <h2 className="cart-title">Car Rental Center</h2>
-                    <button className="close-popup" onClick={toggleCartPopup}>Close</button>
-                </div>
-                <div className="cart-card-container">
-                        {cartItems.length === 0 ? (
-                            <p>Your cart is empty</p>
-                        ) : (
-                        <div className="cart-item-card-container">
-                            <div>
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th className="cart_table_item">Image</th>
-                                        <th className="cart_table_item">Name</th>
-                                        <th className="cart_table_item">Price Per Day</th>
-                                        <th className="cart_table_item">Reservation Days</th>
-                                        <th className="cart_table_item">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>{tableRows}</tbody>
-                                </table>
-                            </div>
-                        </div>
-                        )}
-                    <div className="cart-footer">
-                            <div></div>
-                            <div></div>
-                            <button onClick={checkout}  disabled={isCartEmpty} style={{ backgroundColor: isCartEmpty ? "grey" : "white" }}>Checkout</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
-    )}
-
-    {/* orderForm-popup */}
-    {showForm && (
-        <div className="pop-form">
-            <div className="overlay"></div>
-                <div className="form-container">
-                    <div className="form-content">
+        <div className="background-main">
+            {/* main-area */}
+            <CarBrowsing/>
+            
+            {/* cart-popup */}
+            {cartPopup &&(
+            <div className="popup-cart">
+                <div className="overlay"></div>
+                <div className="cart-container">
+                <div className="cart-row">
+                    <div className="cart-content">
                         <div className="cart-header">
-                            <h2 className="form-header-title">Check Out</h2>
-                            <button className="close-popup" onClick={checkout}>Close</button>
+                            <h2 className="cart-title">Car Rental Center</h2>
+                            <button className="close-popup" onClick={toggleCartPopup}>Close</button>
                         </div>
-                        <form className="order-form" onSubmit={bookingCar}>
-                        <div className="form-table-container">
-                            <div className="order-form-item">
-                                <label htmlFor="firstName">First Name: </label>
-                                    <input
-                                        type="text"
-                                        name="firstName"
-                                        id="firstName"
-                                        value={firstName}
-                                        onChange={(event) => setFirstName(event.target.value)}
-                                    />
-                            </div>
-
-                            <div className="order-form-item">
-                                <label htmlFor="name">Last Name: </label>
-                                    <input
-                                        type="text"
-                                        name="lastName"
-                                        id="lastName"
-                                        value={lastName}
-                                        onChange={(event) => setLastName(event.target.value)}
-                                    />
-                            </div>
-
-                            <div className="order-form-item">
-                                <label>Email: </label>
-                                    <input
-                                        type="text"
-                                        name="email"
-                                        id="email"
-                                        value={email}
-                                        onChange={(event) => setEmail(event.target.value)}          
-                                    />
-                                <button type="button" onClick={validateEmail}>Validate Email</button>
-                            </div>
-
-                            <div className="order-form-item">
-                                <label>Address Line: </label>
-                                    <input
-                                        type="text"
-                                        name="address"
-                                        id="address"
-                                        value={address}
-                                        onChange={(event) => setAddress(event.target.value)}
-                                    />
-                            </div>
-
-                            <div className="order-form-item">
-                                <label>City: </label>
-                                    <input
-                                        type="text"
-                                        name="city"
-                                        id="city"
-                                        value={city}
-                                        onChange={(event) => setCity(event.target.value)}
-                                    />
-                            </div>
-
-                            <div className="order-form-item">
-                                <label>State: </label>
-                                <select name="state" id="state" onChange={(event) => setState(event.target.value)}>
-                                    <option value="">-- Please select --</option>
-                                    <option value="ACT">Australian Capital Territory</option>
-                                    <option value="NSW">New South Wales</option>
-                                    <option value="NT">Northern Territory</option>
-                                    <option value="QLD">Queensland</option>
-                                    <option value="SA">South Australia</option>
-                                    <option value="TAS">Tasmania</option>
-                                    <option value="VIC">Victoria</option>
-                                    <option value="WA">Western Australia</option>
-                                </select>
-                            </div>
-
-                            <div className="order-form-item">
-                                <label>Post Code: </label>
-                                    <input
-                                        type="text"
-                                        name="postCode"
-                                        id="postCode"
-                                        value={postCode}
-                                        onChange={(event) => setPostCode(event.target.value)}
-                                    />
-                            </div>
-
-                            <div className="order-form-item">
-                                <label>Payment Type: </label>
-                                <select name="paymentType" id="paymentType" onChange={(event) => setPaymentType(event.target.value)}>
-                                    <optgroup label="paymentType">
-                                        <option value="master">Master</option>
-                                        <option value="visa">Visa</option>
-                                    </optgroup>
-                                </select>   
+                        <div className="cart-card-container">
+                                {cartItems.length === 0 ? (
+                                    <p>Your cart is empty</p>
+                                ) : (
+                                <div className="cart-item-card-container">
+                                    <div>
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th className="cart_table_item">Image</th>
+                                                <th className="cart_table_item">Name</th>
+                                                <th className="cart_table_item">Price Per Day</th>
+                                                <th className="cart_table_item">Reservation Days</th>
+                                                <th className="cart_table_item">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>{tableRows}</tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                )}
+                            <div className="cart-footer">
+                                    <div></div>
+                                    <div></div>
+                                    <button onClick={checkout}  disabled={isCartEmpty} style={{ backgroundColor: isCartEmpty ? "grey" : "white" }}>Checkout</button>
                             </div>
                         </div>
-                        </form>
-                    <div className="order-form-footer">
-                        <div className="order-form-price"><h3>Total Price: ${totalPrice.toFixed(2)}</h3></div>
-                        <div className="order-form-price"><h3>Bond: ${bondValue}</h3></div>                        
-                        <button type="button" onClick={checkout}>Continue Selection</button>
-                        <button type="submit" onClick={bookingCar}>Booking</button>     
                     </div>
                 </div>
+                </div>
             </div>
+            )}
+
+            {/* orderForm-popup */}
+            {showForm && (
+                <div className="pop-form">
+                    <div className="overlay"></div>
+                        <div className="form-container">
+                            <div className="form-content">
+                                <div className="cart-header">
+                                    <h2 className="form-header-title">Check Out</h2>
+                                    <button className="close-popup" onClick={checkout}>Close</button>
+                                </div>
+                                <form className="order-form" onSubmit={bookingCar}>
+                                <div className="form-table-container">
+                                    <div className="order-form-item">
+                                        <label htmlFor="firstName">First Name: </label>
+                                            <input
+                                                type="text"
+                                                name="firstName"
+                                                id="firstName"
+                                                value={firstName}
+                                                onChange={(event) => setFirstName(event.target.value)}
+                                            />
+                                    </div>
+
+                                    <div className="order-form-item">
+                                        <label htmlFor="name">Last Name: </label>
+                                            <input
+                                                type="text"
+                                                name="lastName"
+                                                id="lastName"
+                                                value={lastName}
+                                                onChange={(event) => setLastName(event.target.value)}
+                                            />
+                                    </div>
+
+                                    <div className="order-form-item">
+                                        <label>Email: </label>
+                                            <input
+                                                type="text"
+                                                name="email"
+                                                id="email"
+                                                value={email}
+                                                onChange={(event) => setEmail(event.target.value)}          
+                                            />
+                                        <button type="button" onClick={validateEmail}>Validate Email</button>
+                                    </div>
+
+                                    <div className="order-form-item">
+                                        <label>Address Line: </label>
+                                            <input
+                                                type="text"
+                                                name="address"
+                                                id="address"
+                                                value={address}
+                                                onChange={(event) => setAddress(event.target.value)}
+                                            />
+                                    </div>
+
+                                    <div className="order-form-item">
+                                        <label>City: </label>
+                                            <input
+                                                type="text"
+                                                name="city"
+                                                id="city"
+                                                value={city}
+                                                onChange={(event) => setCity(event.target.value)}
+                                            />
+                                    </div>
+
+                                    <div className="order-form-item">
+                                        <label>State: </label>
+                                        <select name="state" id="state" onChange={(event) => setState(event.target.value)}>
+                                            <option value="">-- Please select --</option>
+                                            <option value="ACT">Australian Capital Territory</option>
+                                            <option value="NSW">New South Wales</option>
+                                            <option value="NT">Northern Territory</option>
+                                            <option value="QLD">Queensland</option>
+                                            <option value="SA">South Australia</option>
+                                            <option value="TAS">Tasmania</option>
+                                            <option value="VIC">Victoria</option>
+                                            <option value="WA">Western Australia</option>
+                                        </select>
+                                    </div>
+
+                                    <div className="order-form-item">
+                                        <label>Post Code: </label>
+                                            <input
+                                                type="text"
+                                                name="postCode"
+                                                id="postCode"
+                                                value={postCode}
+                                                onChange={(event) => setPostCode(event.target.value)}
+                                            />
+                                    </div>
+
+                                    <div className="order-form-item">
+                                        <label>Payment Type: </label>
+                                        <select name="paymentType" id="paymentType" onChange={(event) => setPaymentType(event.target.value)}>
+                                            <optgroup label="paymentType">
+                                                <option value="master">Master</option>
+                                                <option value="visa">Visa</option>
+                                            </optgroup>
+                                        </select>   
+                                    </div>
+                                </div>
+                                </form>
+                            <div className="order-form-footer">
+                                <div className="order-form-price"><h3>Total Price: ${totalPrice.toFixed(2)}</h3></div>
+                                <div className="order-form-price"><h3>Bond: ${bondValue}</h3></div>                        
+                                <button type="button" onClick={checkout}>Continue Selection</button>
+                                <button type="submit" onClick={bookingCar}>Booking</button>     
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
-    )}
-</body>
+    </body>
 </>
 )
 }
