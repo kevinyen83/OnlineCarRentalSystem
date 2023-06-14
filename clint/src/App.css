@@ -40,7 +40,7 @@ to {
 body {
     margin: 0;
     padding: 0; 
-    background-color: rgba(45, 59, 60, 0.531);
+    background-color: rgba(45, 59, 60, 0.196);
   }
 
   .container {
@@ -132,7 +132,7 @@ body {
                 }
 
                 .navBar-container-reservationBtn:hover {
-                    background-color: rgba(219, 188, 76, 0.465);
+                    background-color: rgba(219, 188, 76, 0.8);
                 }
 
 .shoppingCart-container{
@@ -169,7 +169,7 @@ body {
 }
 
 .mainArea-card-item:hover {
-    filter: brightness(0.7);
+    filter: brightness(0.8);
     }
 
 .mainArea-img {
@@ -221,6 +221,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 4;
     position: fixed;
 }
 
@@ -249,52 +250,26 @@ body {
     align-items: center;
 }
 
-.close-popup {
-    position: absolute;
-    top: 20px;
-    right: 10px;
-    padding: 5px 7px;
-}
-
 .popup-cart{
-    width: 1200px;
-    height: 400px;
-    top: 0;
-    left: 0;
-    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cart-container {
     position: fixed;
-    width: 1400px;
-    height: 200px;
-    margin: 2px;
-}
-
-.cart-content{
-    position: fixed;
+    display: grid;
     width: 1320px;
-    height: 650px;
+    height: 800px;
     top: 12%;
     line-height: 1.4;
-    background: white;
+    background-color: white;
     border-radius: 3px;
+    grid-template-rows: 70px 630px 70px;
+    z-index: 5;
 }
-
-.cart-card-container {
-    height: auto;
-    padding: 8%;
-    align-items: center;
-    justify-items: center;
-}
-
-    .cart-row {
-        display: grid;
-        grid-template-rows: 1fr 1fr 1fr;
-    }
 
     .cart-header {
-        position: fixed;
         display: grid;
         width: inherit;
         background-color:rgb(45, 59, 60);
@@ -305,19 +280,75 @@ body {
         justify-content: center;
     }
 
-    .cart-title {
-    padding-left: 5%;
+        .cart-header-title {
+            padding-left: 5%;
+        }
+
+
+        .cart-header-close-popup {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            position: absolute;
+            height: 60px;
+            right: 0px;
+            padding: 5px 20px;
+            background-color: rgb(219, 188, 76);
+            color: rgb(49, 65, 77);
+        }
+
+            .cart-header-close-popup:hover {
+                background-color: rgba(219, 188, 76, 0.8);
+            }
+
+    .cart-table-container {
+        padding: 4%;
+        overflow-y: auto;
     }
+    
+        .cart-table-container-item {
+            padding: 20px;
+            align-items: center;
+            justify-items: center;
+            text-align: center;
+        }    
+
+        .cart-table-price {
+            align-items: center;
+        }
 
     .cart-footer {
-        position: fixed;
         display: grid;
+        width: inherit;
+        grid-template-columns: 80% 20%;
+        z-index: 3;
+    }
+
+    .cart-footer-item{
         width: 80%;
-        background-color:white;
-        grid-template-columns: 1fr 1fr 1fr;
-        z-index: 10;
-        bottom: 10%;
-}
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        text-align: center;
+    }
+
+        .cart-footer-item:hover {
+            background-color: rgba(219, 188, 76, 0.8);
+        }
+
+        .cart-footer-checkoutBtn{  
+            width: 200px;
+            height: 60px;
+            font-size: large;
+            color: rgb(49, 65, 77);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            }
+
 
 .cart-card {
     position: relative;
@@ -330,10 +361,6 @@ body {
     border-radius: 10px;
     object-fit: contain;
     top: 100px;
-}
-
-.cart_table_item {
-    padding: 20px;
 }
 
 .cart-footer-btn{

@@ -32,6 +32,8 @@ function App() {
     };
 
     const addToCart = (car) => {
+        // alert("The cart has been reserved!");
+
      fetch("http://localhost:3001/cars.json")
     .then(res => res.json())
     .then(data => {
@@ -119,35 +121,6 @@ function App() {
             }
     }
 }
-
-
-const tableRows = cartItems.map((item) => {
-    const handleChange = (e) => {
-        const updatedCart = cartItems.map((cartItem) => {
-        if (cartItem.id === item.id) {
-            return { ...cartItem, reservationDays: e.target.value };
-        }
-        return cartItem;
-        });
-        setCartItems(updatedCart);
-    };
-        
-    return (
-        <tr key={item.id}>
-        <td className="cart_table_item">
-            <img src={item.image} alt={item.name} height="50" width="80" />
-        </td>
-        <td className="cart_table_item">{item.name}</td>
-        <td className="cart_table_item">$ {item.price_per_day}</td>
-        <td className="cart_table_item">
-            <input type="number" min="1" value={item.reservationDays || 1} onChange={handleChange} />
-        </td>
-        <td className="cart_table_item">
-            <button onClick={() => removeItem(item)}>Remove</button>
-        </td>
-        </tr>
-    );
-    });
 
     const toggleCartPopup = () => {
         if (isCartEmpty === false){
@@ -308,7 +281,15 @@ const tableRows = cartItems.map((item) => {
                 <CarBrowsing/>
                 
                 {/* cart-popup */}
-                <CartPopup cartPopup={cartPopup} />
+                <CartPopup   
+                    cartPopup={cartPopup}
+                    toggleCartPopup={toggleCartPopup}
+                    cartItems={cartItems}
+                    setCartItems={setCartItems}
+                    checkout={checkout}
+                    isCartEmpty={isCartEmpty}
+                    removeItem={removeItem} 
+                />
 
                 {/* orderForm-popup */}
                 {showForm && (
