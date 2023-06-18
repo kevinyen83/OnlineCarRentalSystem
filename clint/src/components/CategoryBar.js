@@ -9,7 +9,6 @@ function CategoryBar({ categoryList, setFilteredCars, cars }) {
         console.log(categoryList)
         setFilteredCars(filtered);
         console.log(filtered)
-
     };
 
     return (

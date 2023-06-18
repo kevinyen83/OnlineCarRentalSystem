@@ -1,13 +1,17 @@
+import Axios from "axios";
+import React, { useState } from "react";
+
 function FormPopup({
-    showForm,
     checkout,
+    cartItems,
+    setCartItems,
+    setIsCartEmpty,
     firstName,
     setFirstName,
     lastName,
     setLastName,
     email,
     setEmail,
-    validateEmail,
     address,
     setAddress,
     city,
@@ -18,12 +22,120 @@ function FormPopup({
     setPostCode,
     paymentType,
     setPaymentType,
-    bookingCar,
-    totalPrice,
     bondValue,
-}) 
+    setBondValue,
+    totalPrice,
+    showForm,
+    setShowForm,
+    toggleFormPopup,
+}) {
 
-{
+    const [isEmailValidated, setIsEmailValidated] = useState(false);
+    const [hasRentingHistory, setHasRentingHistory] = useState(false);
+
+    const validateEmail = () => {
+        Axios.post("http://localhost:3001/validateEmail", { email })
+          .then(response => {
+            const { hasRentingHistory } = response.data;
+            setHasRentingHistory(hasRentingHistory);
+            console.log("A" + hasRentingHistory)
+            setIsEmailValidated(true);
+            if (email !== " " && email.includes("@")) {
+                console.log("B" + hasRentingHistory)
+                alert("Validation successful!")
+                if (hasRentingHistory == true){
+                    setBondValue(0)
+                } else if (hasRentingHistory == false) {
+                    setBondValue(200)
+                }
+        } else {
+            alert("Please fill in the email field with a valid email address");
+        }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    };
+
+    const updateCarAvailability = () => {
+        fetch("http://localhost:3001/cars.json")
+            .then((res) => res.json())
+            .then((data) => {
+            const updatedCars = data.cars.map((car) => {
+                const foundCartItem = cartItems.find(
+                (item) => item.name === car.name
+                );
+                if (foundCartItem) {
+                return {
+                    ...car,
+                    availability: "No"
+                };
+                }
+                return car;
+            });
+        
+            fetch("http://localhost:3001/cars.json", {
+                method: "PUT",
+                headers: {
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ cars: updatedCars })
+            })
+                .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Failed to update car availability.");
+                }
+                console.log("Car availability updated successfully.");
+                })
+                .catch((error) => {
+                console.error(error);
+                });
+            })
+            .catch((error) => {
+            console.error(error);
+            });
+        };
+
+    const bookingCar = (event, car) => {
+        event.preventDefault();
+            if (firstName && lastName && email && address && city && state && postCode && paymentType !== " ") {
+                if (email.includes("@")) {
+                    if (isEmailValidated != true){
+                        alert("Please validate your Email first")
+                    } else {
+                    Axios.post("http://localhost:3001/create", {
+                        email: email,
+                        totalPrice: totalPrice,
+                            }).then(() => {
+                            console.log("success");
+                            });
+                    updateCarAvailability(cartItems)
+                    
+                    setShowForm(false);
+                    setCartItems([]);
+                    setIsCartEmpty(true);
+                    setShowForm(false);
+        
+                    setFirstName("");
+                    setLastName("");
+                    setEmail("");
+                    setAddress("");
+                    setCity("");
+                    setState("");
+                    setPostCode("");
+                    setPaymentType("");
+                    
+                    alert("Order placed successfully!");
+                    console.log("Form submitted", email, totalPrice);                    
+                    }
+            } else {
+                alert("It's not a valid email address");
+                }
+        } else {
+            alert("Please fill in all fields.");
+        }
+    };
+
 return (
 <>
     {showForm && (
@@ -32,7 +144,7 @@ return (
         <div className="form-container">
         <div className="form-header">
             <h2 className="form-header-title">ORDER FORM</h2>
-            <div className="form-header-close-popup" onClick={checkout}>
+            <div className="form-header-close-popup" onClick={toggleFormPopup}>
             Close
             </div>
         </div>
@@ -151,7 +263,7 @@ return (
             <div></div>
             </div>
             <div className="form-footer-item">
-                <div className="form-footer-btn-continue" onClick={checkout}>
+                <div className="form-footer-btn-continue" onClick={toggleFormPopup}>
                     Continue Selection
                 </div>
             </div>

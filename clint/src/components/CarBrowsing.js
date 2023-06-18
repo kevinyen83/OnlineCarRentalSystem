@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import CategoryBar from "/Users/net/car-rental-system/clint/src/components/CategoryBar.js";
 
 function CarBrowsing({
-  lastId,
-  setCartItems,
-  cartItems,
-  setTotalPrice,
-  totalPrice,
-  setIsCartEmpty,
-  setLastId,
-  isCartEmpty,
-  cars,
-  setCars,
-  filteredCars,
-  setFilteredCars,
+    setTotalPrice,
+    totalPrice,
+    setCars,
+    filteredCars,
+    setFilteredCars,
+    cartItems,
+    setCartItems,
+    lastId,
+    setLastId,
+    isCartEmpty,
+    setIsCartEmpty,
 }) {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+
 
   useEffect(() => {
     fetch("http://localhost:3001/cars.json")

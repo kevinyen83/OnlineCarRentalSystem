@@ -1,8 +1,44 @@
+import React, { useState } from "react";
 
+function CartPopup ({
+    setTotalPrice, 
+    totalPrice, 
+    setShowForm, 
+    showForm, 
+    isCartEmpty, 
+    cartItems, 
+    setCartItems, 
+    setIsCartEmpty,
+    cartPopup,
+    setCartPopup,
+    toggleCartPopup,
+    }) {
 
-function CartPopup ({ 
-    cartPopup, toggleCartPopup, cartItems, setCartItems, checkout, isCartEmpty, removeItem
-}) {
+    const removeItem = (item) => {
+        const itemIndex = cartItems.findIndex((i) => i === item);
+        if (itemIndex >= 0) {
+        const updatedItems = [...cartItems];
+        updatedItems.splice(itemIndex, 1);
+    
+        setCartItems(updatedItems);
+        setTotalPrice(totalPrice - item.price_per_day);
+        setIsCartEmpty(updatedItems.length === 0);
+        }
+        };
+
+    const checkout = (item) => {
+        if (!isCartEmpty) {
+        setShowForm(!showForm);
+        setCartPopup(false);
+        setTotalPrice(
+            cartItems.reduce((total, item) => total + item.price_per_day * item.reservationDays, 0)
+        );
+        setCartPopup(false);
+        } else {
+            alert("Invaild Input Value!")
+        }
+    };
+
     const tableRows = cartItems.map((item) => {
         const handleChange = (e) => {
             const updatedCart = cartItems.map((cartItem) => {
