@@ -16,3 +16,10 @@ To install and run the project, follow these steps:
 ## Usage
 
 1.  To activate the server, please enter your MySQL database password in the `./car-rental-system/clint/src/index.js` file.
+
+## Action Items
+
+1.  Use validation library to manage form validation parts.
+2.  Use unique ID instead of Key index (Refer to https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key)
+3.  Add unit tests
+4.  Add Integrated tests by Cypress
