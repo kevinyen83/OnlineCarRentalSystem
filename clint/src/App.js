@@ -1,10 +1,10 @@
 import "./App.css";
 import React, { useState } from "react";
 import Axios from "axios";
-import CartPopup from "/Users/net/car-rental-system/clint/src/components/CartPopup.js";
-import FormPopup from "/Users/net/car-rental-system/clint/src/components/FormPopup.js";
-import CarBrowsing from "/Users/net/car-rental-system/clint/src/components/CarBrowsing.js";
-import NavBar from "/Users/net/car-rental-system/clint/src/components/NavBar.js";
+import CartPopup from "./components/CartPopup.js";
+import FormPopup from "./components/FormPopup.js";
+import CarBrowsing from "./components/CarBrowsing.js";
+import NavBar from "./components/NavBar.js";
 
 function App() {
     const [cartItems, setCartItems] = useState([]);
@@ -17,6 +17,8 @@ function App() {
     const [isEmailValidated, setIsEmailValidated] = useState(false);
     const [bondValue, setBondValue] = useState("?");
     const [hasRentingHistory, setHasRentingHistory] = useState(false);
+    const [cars, setCars] = useState([]);
+    const [filteredCars, setFilteredCars] = useState([]);
 
         const [firstName, setFirstName] = useState("");
         const [lastName, setLastName] = useState("");
@@ -173,7 +175,10 @@ function App() {
         <body>
             <NavBar 
             toggleCartPopup={toggleCartPopup}
-            cartItems={cartItems}/>
+            cartItems={cartItems}
+            setFilteredCars={setFilteredCars}
+            cars={cars}
+            />
 
             <div className="container">
                 {/* main-area */}
@@ -186,6 +191,10 @@ function App() {
                     setIsCartEmpty={setIsCartEmpty}
                     setLastId={setLastId}
                     isCartEmpty={isCartEmpty}
+                    cars={cars}
+                    setCars={setCars}
+                    filteredCars={filteredCars}
+                    setFilteredCars={setFilteredCars}
                 />
                 
                 {/* cart-popup */}

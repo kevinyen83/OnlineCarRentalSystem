@@ -151,14 +151,14 @@ return (
             <div></div>
             </div>
             <div className="form-footer-item">
-            <div className="form-footer-btn" onClick={checkout}>
-                Continue Selection
-            </div>
+                <div className="form-footer-btn-continue" onClick={checkout}>
+                    Continue Selection
+                </div>
             </div>
             <div className="form-footer-item">
-            <div className="form-footer-btn" onClick={bookingCar}>
-                Booking
-            </div>
+                <div className="form-footer-btn" onClick={bookingCar}>
+                    Booking
+                </div>
             </div>
         </div>
         </div>

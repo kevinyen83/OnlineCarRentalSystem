@@ -8,11 +8,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  user: "root",
-  host: "127.0.0.1",
-  password: "Tmups9351007*",  
-  database: "car_rental_system",
-  port: 3306,
+  user: "root", //Please type your own username
+  host: "127.0.0.1", //Please type your own host
+  password: "",   //Please type your own password
+  database: "car_rental_system", //Please type your own database name
+  port: 3306, //Please type your own port
 });
 
 app.post("/create", (req, res) => {
