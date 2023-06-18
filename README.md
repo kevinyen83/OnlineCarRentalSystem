@@ -16,6 +16,17 @@ To install and run the project, follow these steps:
 ## Usage
 
 1.  To activate the server, please enter your MySQL database password in the `./car-rental-system/clint/src/index.js` file.
+```javascript
+{
+    const db = mysql.createConnection({
+    user: "", //Please type your own username
+    host: "", //Please type your own host
+    password: "",   //Please type your own password
+    database: "", //Please type your own database name
+    port: 3306, //Please type your own port
+    });
+}
+```
 
 ## Action Items
 
