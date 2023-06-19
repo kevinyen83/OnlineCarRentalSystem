@@ -1,6 +1,6 @@
-import logo from "/Users/net/car-rental-system/clint/src/components/assets/images/logo.png";
-import CategoryBar from "/Users/net/car-rental-system/clint/src/components/CategoryBar.js";
-import categoryList from "/Users/net/car-rental-system/clint/src/components/categoryList.js";
+import logo from "/Users/net/OnlineCarRentalSystem/client/src/components/assets/images/logo.png";
+import CategoryBar from "/Users/net/OnlineCarRentalSystem/client/src/components/CategoryBar.js";
+import categoryList from "/Users/net/OnlineCarRentalSystem/client/src/components/categoryList.js";
 
 function NavBar({ toggleCartPopup, cartItems, setFilteredCars, cars }) {
     const handleLogoClick = () => {

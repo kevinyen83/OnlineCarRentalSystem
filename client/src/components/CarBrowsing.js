@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CategoryBar from "/Users/net/car-rental-system/clint/src/components/CategoryBar.js";
+import CategoryBar from "/Users/net/OnlineCarRentalSystem/client/src/components/CategoryBar.js";
 
 function CarBrowsing({
     setTotalPrice,

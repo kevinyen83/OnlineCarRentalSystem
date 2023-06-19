@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import '/Users/net/car-rental-system/clint/src/App.css';
+import '/Users/net/OnlineCarRentalSystem/client/src/App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
