@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import CategoryBar from "/Users/net/OnlineCarRentalSystem/client/src/components/CategoryBar.js";
 
 function CarBrowsing({
     setTotalPrice,
@@ -72,48 +71,49 @@ function CarBrowsing({
       <div className="main-area">
         <div className="mainArea-card-container">
           {filteredCars.map((car) => (
-            <div className="mainArea-card-item" key={car.id}>
-              <img className="mainArea-img" src={car.image} alt={car.name} />
-              <h3 className="mainArea-name">{car.name}</h3>
-              <p className="mainArea-title">
+            <div className="mainArea-card-item" key={car.id} data-testid="cart-item-id">
+              <img className="mainArea-img" src={car.image} alt={car.name} data-testid="cart-item-image" />
+              <h3 className="mainArea-name" data-testid="cart-item-name">{car.name}</h3>
+              <p className="mainArea-title" data-testid="cart-item-category">
                 <b>Category: </b>
                 {car.category}
               </p>
-              <p className="mainArea-title">
+              <p className="mainArea-title" data-testid="cart-item-model">
                 <b>Model: </b>
                 {car.model}
               </p>
-              <p className="mainArea-title">
+              <p className="mainArea-title" data-testid="cart-item-mileage">
                 <b>Mileage: </b>
                 {car.mileage} kms
               </p>
-              <p className="mainArea-title">
+              <p className="mainArea-title" data-testid="cart-item-fuel_type">
                 <b>Fuel Type: </b>
                 {car.fuel_type}
               </p>
-              <p className="mainArea-title">
+              <p className="mainArea-title" data-testid="cart-item-seats">
                 <b>Seats: </b>
                 {car.seats}
               </p>
-              <p className="mainArea-title">
+              <p className="mainArea-title" data-testid="cart-item-price_per_day">
                 <b>Price Per Day: </b>
                 {car.price_per_day} AU
               </p>
-              <p className="mainArea-title">
+              <p className="mainArea-title" data-testid="cart-item-availability">
                 <b>Availability: </b>
                 {car.availability}
               </p>
-              <p className="mainArea-description">
+              <p className="mainArea-description" data-testid="cart-item-description">
                 <b>Description: </b>
                 {car.description}
               </p>
               <br />
               <div>
                 <button
-                  className="addToCartBtn"
-                  onClick={() => addToCart(car)}
+                    className="addToCartBtn"
+                    onClick={() => addToCart(car)}
+                    data-testid="add-to-cart-btn"
                 >
-                  Add to Cart
+                Add to Cart
                 </button>
               </div>
             </div>
