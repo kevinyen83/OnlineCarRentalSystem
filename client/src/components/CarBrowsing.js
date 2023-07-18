@@ -55,10 +55,11 @@ function CarBrowsing({
           sessionStorage.setItem("lastId", lastId);
           alert("Added to cart!");
         } else {
-          alert(
-            "Sorry, the car is not available now. Please try other cars."
-          );
+          alert("Sorry, the car is not available now. Please try other cars.");
         }
+      })
+      .catch((error) => {
+        console.error("Error adding car to cart:", error);
       });
   };
 
