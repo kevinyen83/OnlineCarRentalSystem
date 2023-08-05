@@ -10,7 +10,6 @@ function CarBrowsing({
     setCartItems,
     lastId,
     setLastId,
-    isCartEmpty,
     setIsCartEmpty,
 }) {
     const [error, setError] = useState(null);
@@ -34,33 +33,26 @@ function CarBrowsing({
   }, []);
 
   const addToCart = (car) => {
-    fetch("http://localhost:3001/cars.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const availableCars = filteredCars.filter(
-          (c) => c.id === car.id && c.availability === "Yes"
-        );
-        if (availableCars.length > 0) {
-          const newCartItem = {
-            ...car,
-            id: lastId + 1
-          };
-          setCartItems([...cartItems, { ...newCartItem, reservationDays: 1 }]);
-          setTotalPrice(totalPrice + car.price_per_day);
-          setIsCartEmpty(false);
-          setLastId(lastId + 1);
-          sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
-          sessionStorage.setItem("totalPrice", totalPrice);
-          sessionStorage.setItem("isCartEmpty", isCartEmpty);
-          sessionStorage.setItem("lastId", lastId);
-          alert("Added to cart!");
-        } else {
-          alert("Sorry, the car is not available now. Please try other cars.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error adding car to cart:", error);
-      });
+    const availableCars = filteredCars.filter(
+      (c) => c.id === car.id && c.availability === "Yes"
+    );
+    if (availableCars.length > 0) {
+      const newCartItem = {
+        ...car,
+        id: lastId + 1
+      };
+      setCartItems([...cartItems, { ...newCartItem, reservationDays: 1 }]);
+      setTotalPrice(totalPrice + car.price_per_day);
+      setIsCartEmpty(false);
+      setLastId(lastId + 1);
+      sessionStorage.setItem("cartItems", JSON.stringify([...cartItems, { ...newCartItem, reservationDays: 1 }]));
+      sessionStorage.setItem("totalPrice", JSON.stringify(totalPrice + car.price_per_day));
+      sessionStorage.setItem("isCartEmpty", JSON.stringify(false));
+      sessionStorage.setItem("lastId", JSON.stringify(lastId + 1));
+      alert("Added to cart!");
+    } else {
+      alert("Sorry, the car is not available now. Please try other cars.");
+    }
   };
 
   if (error) {

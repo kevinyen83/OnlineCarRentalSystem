@@ -1,5 +1,6 @@
-import Axios from "axios";
+import axios from "axios";
 import React, { useState } from "react";
+
 
 function FormPopup({
     checkout,
@@ -34,7 +35,7 @@ function FormPopup({
     const [hasRentingHistory, setHasRentingHistory] = useState(false);
 
     const validateEmail = () => {
-        Axios.post("http://localhost:3001/validateEmail", { email })
+        axios.post("http://localhost:3001/validateEmail", { email })
           .then(response => {
             const { hasRentingHistory } = response.data;
             setHasRentingHistory(hasRentingHistory);
@@ -103,7 +104,7 @@ function FormPopup({
                     if (isEmailValidated != true){
                         alert("Please validate your Email first")
                     } else {
-                    Axios.post("http://localhost:3001/create", {
+                    axios.post("http://localhost:3001/create", {
                         email: email,
                         totalPrice: totalPrice,
                             }).then(() => {
