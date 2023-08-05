@@ -9,7 +9,7 @@ fetchMock.enableMocks();
 
 describe('CarBrowsing', () => {
   it('should add a car to the cart on button click if it is available', async () => {
-    const lastId = 1; 
+    const lastId = 0; 
     const setCartItems = jest.fn();
     const cartItems = []; 
     const setTotalPrice = jest.fn();
@@ -36,7 +36,6 @@ describe('CarBrowsing', () => {
     const setCars = jest.fn();
     const filteredCars = cars; 
     const setFilteredCars = jest.fn();
-    const mockAlert = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
     fetchMock.mockResponseOnce(JSON.stringify({ cars }));
     
@@ -71,5 +70,26 @@ describe('CarBrowsing', () => {
     expect(setCartItems).toHaveBeenCalledWith(expect.any(Array)); 
     expect(setTotalPrice).toHaveBeenCalledTimes(1);
     expect(setTotalPrice).toHaveBeenCalledWith(expect.any(Number));
+    expect(setCartItems).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: 1,
+            name: "Toyota Camry 2013",
+            image: "https://images.hgmsites.net/lrg/2013-toyota-camry-4-door-sedan-i4-auto-xle-natl-angular-front-exterior-view_100414692_l.jpg",
+            name: "Toyota Camry 2013",
+            category: "SEDAN",
+            subcategory: "5 SEATS",
+            model: "Camry 2014",
+            mileage: 85364,
+            fuel_type: "Petrol",
+            seats: 5,
+            price_per_day: 240,
+            availability: "Yes",
+            description: "A reliable and spacious sedan with great fuel economy."
+          }),
+        ])
+      );
+
+    expect(screen.getByText(/Toyota Camry 2013/i)).toBeInTheDocument();
   });
 });
