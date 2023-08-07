@@ -36,7 +36,10 @@ function CarBrowsing({
     const availableCars = filteredCars.filter(
       (c) => c.id === car.id && c.availability === "Yes"
     );
-    if (availableCars.length > 0) {
+
+    const carAlreadyInCart = cartItems.some((item) => item.id === car.id);
+
+    if (availableCars.length > 0 && !carAlreadyInCart) {
       const newCartItem = {
         ...car,
         id: lastId + 1
@@ -50,9 +53,12 @@ function CarBrowsing({
       sessionStorage.setItem("isCartEmpty", JSON.stringify(false));
       sessionStorage.setItem("lastId", JSON.stringify(lastId + 1));
       alert("Added to cart!");
+    } else if (carAlreadyInCart) {
+        alert("You have already reserved this car.");
+    
     } else {
       alert("Sorry, the car is not available now. Please try other cars.");
-    }
+    } 
   };
 
   if (error) {

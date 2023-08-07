@@ -169,7 +169,7 @@ body {
 }
 
 .mainArea-card-item:hover {
-    filter: brightness(0.8);
+    filter: brightness(0.9);
     }
 
 .mainArea-img {
@@ -392,11 +392,12 @@ margin-bottom: 5px;
 }
 
 .addToCartBtn {
-    width: 100px;
+    width: 140px;
     background-color: transparent;
     border: 1px solid lightgray;
     font: gray;
-    min-width: 100px;
+    font-size: medium;
+    min-width: 120px;
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 5px;
@@ -405,7 +406,7 @@ margin-bottom: 5px;
 }
 
 .addToCartBtn:hover {
-    background-color: rgb(219, 188, 76);
+    background-color: rgba(249, 212, 80, 0.898);
     color: rgb(49, 65, 77);
     cursor: pointer;
 }
@@ -424,7 +425,7 @@ margin-bottom: 5px;
         width: 1320px;
         height: 800px;
         top: 6%;
-        line-height: 1.4;
+        line-height: 1.2;
         background-color: white;
         border-radius: 3px;
         grid-template-rows: 70px 630px 70px;
@@ -469,7 +470,7 @@ margin-bottom: 5px;
         }
 
             .form-table-container-item {
-                padding: 20px;
+                padding: 14px;
                 align-items: left;
                 justify-items: left;
                 text-align: left;
@@ -530,6 +531,11 @@ margin-bottom: 5px;
 
                 .form-footer-btn-continue:hover {
                     background-color: rgba(45, 59, 60, 0.357);
+                }
+
+                .form-footer-btn {
+                    border: none;
+                    outline: none;
                 }
 
 .dropdown {
@@ -593,4 +599,12 @@ display: inline-block;
             width: 80px;
             height: 80px;
         }
-    
+
+        .error-input {
+            border: 1px solid red;
+          }
+          
+          .error-message {
+            color: red;
+            font-size: 14px;
+          }

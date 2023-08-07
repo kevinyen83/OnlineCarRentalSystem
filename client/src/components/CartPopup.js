@@ -11,7 +11,6 @@ function CartPopup ({
     setIsCartEmpty,
     cartPopup,
     setCartPopup,
-    toggleCartPopup,
     }) {
 
     const removeItem = (item) => {
@@ -25,6 +24,10 @@ function CartPopup ({
         setIsCartEmpty(updatedItems.length === 0);
         }
         };
+
+    const closeCart = () => {
+        setCartPopup(false);
+    };
 
     const checkout = (item) => {
         if (!isCartEmpty) {
@@ -75,8 +78,8 @@ return (
             <div className="overlay"></div>
             <div className="cart-container">
                         <div className="cart-header">
-                            <h2 className="cart-header-title">Car Rental Center</h2>
-                            <div className="cart-header-close-popup" onClick={toggleCartPopup}>Close</div>
+                            <h2 className="cart-header-title">CAR RENTAL CENTER</h2>
+                            <div className="cart-header-close-popup" onClick={closeCart}>Close</div>
                         </div>
                         <div className="cart-table-container">
                                 {!cartItems || cartItems.length === 0 ? (
@@ -101,7 +104,7 @@ return (
                         <div className="cart-footer">
                             <div></div>
                             <div className="cart-footer-item">
-                                <div className="cart-footer-checkoutBtn" onClick={checkout}  disabled={isCartEmpty} style={{ backgroundColor: isCartEmpty ? "grey" : "rgb(219, 188, 76)" }}>CHECKOUT</div>
+                                <div className="cart-footer-checkoutBtn" onClick={checkout}  disabled={isCartEmpty} style={{ backgroundColor: isCartEmpty ? "grey" : "rgb(219, 188, 76)" }}>Check out</div>
                             </div>
                         </div>
                     </div>

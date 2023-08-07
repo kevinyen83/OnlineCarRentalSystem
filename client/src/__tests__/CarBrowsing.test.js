@@ -57,13 +57,10 @@ describe('CarBrowsing', () => {
         />
     );
 
-    // Wait for API data to be loaded (e.g., "Loading..." text to disappear)
     await screen.findByText(/Add to Cart/i);
 
-    // Find the first car item in the list (you may need to adjust this based on your data)
     const addToCartButton = screen.getAllByText(/Add to Cart/)[0];
 
-    // Click the "Add to Cart" button
     fireEvent.click(addToCartButton);
 
     expect(setCartItems).toHaveBeenCalledTimes(1);

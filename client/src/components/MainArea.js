@@ -4,7 +4,7 @@ import CartPopup from "./CartPopup";
 import FormPopup from "./FormPopup";
 import NavBar from './NavBar';
 
-function MainArea({ checkout, removeItem, validateEmail, bookingCar,  }) {
+function MainArea({ checkout, removeItem }) {
     const [cartItems, setCartItems] = useState([]);
     const [isCartEmpty, setIsCartEmpty] = useState(true);
     const [reservationDays, setReservationDays] = useState(1);
@@ -90,7 +90,6 @@ function MainArea({ checkout, removeItem, validateEmail, bookingCar,  }) {
                     setLastName={setLastName}
                     email={email}
                     setEmail={setEmail}
-                    validateEmail={validateEmail}
                     address={address}
                     setAddress={setAddress}
                     city={city}
@@ -101,7 +100,6 @@ function MainArea({ checkout, removeItem, validateEmail, bookingCar,  }) {
                     setPostCode={setPostCode}
                     paymentType={paymentType}
                     setPaymentType={setPaymentType}
-                    bookingCar={bookingCar}
                     totalPrice={totalPrice}
                     bondValue={bondValue}
                     setBondValue={setBondValue}
