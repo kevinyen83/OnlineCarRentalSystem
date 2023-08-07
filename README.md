@@ -5,10 +5,11 @@ This is an assignment for UTS Master of IT, which achieved a High Distinction gr
 In this project, an online car rental service was developed using React.js, Node.js, and MySQL. User research and usability testing were conducted to improve the user experience in major user flows.
 
 # Framework Information
-1. Front-end: React.JS, react-dom, react-hook-form, axios, Formik & Yup(Form validation)
-2. Back-end: Node.JS
-3. Database: MySQL, express
-4. Unit test: Jest, Mock Service Worker
+
+1.  Front-end: React.JS, react-dom, react-hook-form, axios, Formik & Yup(Form validation)
+2.  Back-end: Node.JS
+3.  Database: MySQL, express
+4.  Unit test: Jest, Mock Service Worker
 
 ## Installation
 
@@ -37,6 +38,6 @@ To install and run the project, follow these steps:
 
 ## Action Items
 
-[x] Use validation library to manage form validation parts.
-[x] Add unit tests
-[ ] Add Integrated tests by Cypress
+- [x] Use validation library to manage form validation parts.
+- [x] Add unit tests
+- [ ] Add Integrated tests by Cypress
