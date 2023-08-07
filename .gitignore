@@ -5,14 +5,12 @@
 /.pnp
 .pnp.js
 client/node_modules/
-client/build/
-
+.gitignore
 
 # testing
 /coverage
 
 # production
-/clint/build
 
 # misc
 .DS_Store
