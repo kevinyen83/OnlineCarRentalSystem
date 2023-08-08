@@ -5,9 +5,7 @@ import MainArea from './components/MainArea';
 function App() {
     return (
     <>
-        <body>
-            <MainArea/>
-        </body>
+        <MainArea/>
     </>
     )
 }
