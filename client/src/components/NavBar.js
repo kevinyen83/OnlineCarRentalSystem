@@ -1,4 +1,4 @@
-import logo from "./images/logo.png";
+import logo from "./assets/images/logo.png";
 import CategoryBar from "./CategoryBar.js";
 import categoryList from "./categoryList.js";
 
