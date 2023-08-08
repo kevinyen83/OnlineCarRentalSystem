@@ -3,16 +3,19 @@ const app = express();
 const mysql = require("mysql2");
 const cors = require("cors");
 const fs = require("fs")
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  user: "", //Please type your own username
-  host: "", //Please type your own host
-  password: "",   //Please type your own password
-  database: "", //Please type your own database name
-  port: 3306, //Please type your own port
+    user: process.env.user,
+    host: process.env.host,
+    password: process.env.password,
+    database: process.env.database,
+    port: process.env.port,
 });
 
 app.post("/create", (req, res) => {
@@ -21,7 +24,7 @@ app.post("/create", (req, res) => {
     let bond_amount = 200;
   const totalPrice = req.body.totalPrice;
 
-  db.query(
+  db.execute(
     "SELECT rent_date FROM Renting_History WHERE email = ? ORDER BY rent_date DESC LIMIT 1",
     [email],
     (err, result) => {
@@ -37,7 +40,7 @@ app.post("/create", (req, res) => {
           }
         }
 
-        db.query(
+        db.execute(
         "INSERT INTO Renting_History (email, rent_date, bond_amount, totalPrice) VALUES (?, ?, ?, ?)",
         [email, rent_date, bond_amount, totalPrice],
         (err, result) => {
@@ -54,7 +57,7 @@ app.post("/create", (req, res) => {
 });
 
 app.get("/Renting_History", (req, res) => {
-  db.query("SELECT * FROM Renting_History", (err, result) => {
+  db.execute("SELECT * FROM Renting_History", (err, result) => {
     if (err) {
       console.log(err);
     } else {
@@ -67,7 +70,7 @@ app.post("/validateEmail", (req, res) => {
     const { email } = req.body;  
     const query = `SELECT COUNT(*) AS count FROM Renting_History WHERE email = ? AND rent_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)`;
   
-    db.query(query, [email], (error, results) => {
+    db.execute(query, [email], (error, results) => {
       if (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");

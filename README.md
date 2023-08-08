@@ -20,20 +20,14 @@ To install and run the project, follow these steps:
 3.  Install the dependencies using `npm install`.
 4.  Start the project with `npm start`.
 
-## Usage
-
-1.  To activate the server, please enter your MySQL database password in the `./car-rental-system/clint/src/index.js` file.
+## Database Configuration
 
 ```javascript
-{
-  const db = mysql.createConnection({
-    user: '', //Please type your own username
-    host: '', //Please type your own host
-    password: '', //Please type your own password
-    database: '', //Please type your own database name
-    port: 3306, //Please type your own port
-  });
-}
+user = your_database_user;
+host = your_database_host;
+password = your_database_password;
+database = your_database_name;
+port = your_database_port;
 ```
 
 ## Action Items
