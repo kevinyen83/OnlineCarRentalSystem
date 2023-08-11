@@ -17,17 +17,18 @@ To install and run the project, follow these steps:
 
 1.  Clone the repository.
 2.  Navigate to the project directory.
-3.  Install the dependencies using `npm install`.
-4.  Start the project with `npm start`.
+3.  Go to the "Client" file, and install the dependencies using `npm install`.
+4.  Start the front-end project with `npm start`.
+5.  Go to the back-end "Server" file, and install the dependencies using `npm install`.
+6.  Start the back-end project with `node index.js`.
 
 ## Database Configuration
 
 ```javascript
-user = your_database_user;
-host = your_database_host;
-password = your_database_password;
-database = your_database_name;
-port = your_database_port;
+    'username': process.env.USER,
+    'password': process.env.PASSWORD,
+    'database': process.env.DATABASE,
+    'host': process.env.HOST,
 ```
 
 ## Action Items

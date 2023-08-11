@@ -2,16 +2,17 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const { Sequelize, DataTypes } = require('sequelize');
+require('dotenv').config();
 
 // Initialize Sequelize connection
-const sequelize = new Sequelize("car_rental_system", "root", "Tmups9351007*", {
-    host: "127.0.0.1",
-    port: 3306,
+const sequelize = new Sequelize(process.env.DATABASE, "root", process.env.PASSWORD, {
+    host: process.env.HOST,
+    port: process.env.DB_PORT,
     dialect: 'mysql'
   });
 
-// Define Renting_History model
-const Renting_History = sequelize.define('Renting_History', {
+// Define Renting_Histories model
+const Renting_Histories = sequelize.define('Renting_Histories', {
   email: DataTypes.STRING,
   rent_date: DataTypes.DATE,
   bond_amount: DataTypes.DECIMAL,
@@ -72,7 +73,7 @@ const Renting_History = sequelize.define('Renting_History', {
         const rent_date = new Date();
         let bond_amount = 200;
 
-        const lastRentingHistory = await Renting_History.findOne({
+        const lastRentingHistory = await Renting_Histories.findOne({
           where: { email },
           order: [['rent_date', 'DESC']],
         });
@@ -86,7 +87,7 @@ const Renting_History = sequelize.define('Renting_History', {
           }
         }
 
-        await Renting_History.create({
+        await Renting_Histories.create({
           email,
           rent_date,
           bond_amount,
@@ -101,7 +102,8 @@ const Renting_History = sequelize.define('Renting_History', {
       }
     });
 
-    const PORT = process.env.PORT || 3001;
+    const PORT = process.env.PORT;
+
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
