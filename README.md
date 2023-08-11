@@ -1,5 +1,7 @@
 # Online Car Rental System
 
+![Alt text](https://github.com/kevinyen83/OnlineCarRentalSystem/blob/main/client/screenshots/homepage.png)
+
 This is an assignment for UTS Master of IT, which achieved a High Distinction grade and was invited to participate in the software engineering showcase of the 2023 UTS Tech Festival.
 
 In this project, an online car rental service was developed using React.js, Node.js, and MySQL. User research and usability testing were conducted to improve the user experience in major user flows.
