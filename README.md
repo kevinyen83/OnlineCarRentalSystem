@@ -13,25 +13,28 @@ In this project, an online car rental service was developed using React.js, Node
 3.  Database: MySQL, express
 4.  Unit test: Jest, Mock Service Worker
 
-## Installation
+## Installation And Data Configuration
 
 To install and run the project, follow these steps:
 
 1.  Clone the repository.
 2.  Navigate to the project directory.
 3.  Go to the "Client" file, and install the dependencies using `npm install`.
-4.  Start the front-end project with `npm start`.
-5.  Go to the back-end "Server" file, and install the dependencies using `npm install`.
-6.  Start the back-end project with `node index.js`.
+4.  Go to the back-end "Server" file, and install the dependencies using `npm install`.
+5.  Execute database configuration by creating a new `.env` file on this path `server/.env`
+6.  In the .env file, paste and change the value as follows:
 
-## Database Configuration
+    ```javascript
+    USER=YOUR USER NAME
+    HOST=YOUR HOST
+    PASSWORD=YOUR PASSWORD
+    DATABASE=YOUR DATABASE
+    PORT=3001
+    DB_PORT=3306
+    ```
 
-```javascript
-    'username': process.env.USER,
-    'password': process.env.PASSWORD,
-    'database': process.env.DATABASE,
-    'host': process.env.HOST,
-```
+7.  Return to the "Client" file, and start the front-end project with `npm start`.
+8.  Return to the "Client" file, and start the back-end project with `npm start`.
 
 ## Action Items
 
