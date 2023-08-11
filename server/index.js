@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const { Sequelize, DataTypes } = require('sequelize');
-require('dotenv').config();
+
+require('dotenv').config({ path: 'server/.env' });
+
 
 // Initialize Sequelize connection
 const sequelize = new Sequelize(process.env.DATABASE, "root", process.env.PASSWORD, {
