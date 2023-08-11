@@ -25,10 +25,10 @@ To install and run the project, follow these steps:
 6.  In the .env file, paste and change the value as follows:
 
     ```javascript
-    USER=YOUR USER NAME
-    HOST=YOUR HOST
-    PASSWORD=YOUR PASSWORD
-    DATABASE=YOUR DATABASE
+    USER=YOUR MySQL USER NAME
+    HOST=YOUR MySQL HOST
+    PASSWORD=YOUR MySQL PASSWORD
+    DATABASE=YOUR MySQL DATABASE
     PORT=3001
     DB_PORT=3306
     ```
