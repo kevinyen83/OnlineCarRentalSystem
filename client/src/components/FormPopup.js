@@ -4,14 +4,14 @@ import * as Yup from "yup";
 import axios from "axios";
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required("First Name is required"),
-  lastName: Yup.string().required("Last Name is required"),
-  email: Yup.string().email("Invalid email address").required("Email is required"),
-  address: Yup.string().required("Address is required"),
-  city: Yup.string().required("City is required"),
-  state: Yup.string().required("State is required"),
-  postCode: Yup.string().required("Post Code is required"),
-  paymentType: Yup.string().required("Payment Type is required"),
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
+    email: Yup.string().email("Invalid email address").required("Email is required"),
+    address: Yup.string().required("Address is required"),
+    city: Yup.string().required("City is required"),
+    state: Yup.string().required("State is required"),
+    postCode: Yup.string().required("Post Code is required"),
+    paymentType: Yup.string().required("Payment Type is required"),
 });
 
 function FormPopup({

@@ -1,7 +1,7 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('RentingHistories', {
       id: {
         allowNull: false,
@@ -16,10 +16,10 @@ module.exports = {
         type: Sequelize.DATE
       },
       bond_amount: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(10, 0)
       },
       totalPrice: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(10, 0)
       },
       createdAt: {
         allowNull: false,
@@ -31,7 +31,8 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('RentingHistories');
   }
 };
