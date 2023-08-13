@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import Axios from "axios";
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -46,7 +46,7 @@ function FormPopup({
   const [hasRentingHistory, setHasRentingHistory] = useState(false);
 
   const validateEmail = ({ email }) => {
-    axios
+    Axios
       .post("http://localhost:3001/validateEmail", { email })
       .then((response) => {
         const { hasRentingHistory } = response.data;
@@ -69,42 +69,35 @@ function FormPopup({
       });
   };
 
-  const updateCarAvailability = () => {
-    fetch("http://localhost:3001/cars.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const updatedCars = data.cars.map((car) => {
-          const foundCartItem = cartItems.find((item) => item.name === car.name);
-          if (foundCartItem) {
-            return {
-              ...car,
-              availability: "No",
-            };
-          }
-          return car;
-        });
-
-        fetch("http://localhost:3001/cars.json", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ cars: updatedCars }),
-        })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("Failed to update car availability.");
+    const updateCarAvailability = () => {
+        Axios.get("http://localhost:3001/cars.json")
+        .then((response) => {
+            const updatedCars = response.data.cars.map((car) => {
+            const foundCartItem = cartItems.find((item) => item.name === car.name);
+            if (foundCartItem) {
+                return {
+                ...car,
+                availability: "No",
+                };
             }
-            console.log("Car availability updated successfully.");
-          })
-          .catch((error) => {
+            return car;
+            });
+
+            Axios.put("http://localhost:3001/cars.json", { cars: updatedCars })
+            .then((res) => {
+                if (!res.data) {
+                throw new Error("Failed to update car availability.");
+                }
+                console.log("Car availability updated successfully.");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        })
+        .catch((error) => {
             console.error(error);
-          });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+        });
+    };
 
   const onSubmit = () => {
     if (
@@ -120,7 +113,7 @@ function FormPopup({
     ) {
       alert("Please fill in all required fields and validate your Email.");
     } else {
-      axios
+        Axios
         .post("http://localhost:3001/create", {
           email: formik.values.email,
           totalPrice: totalPrice,

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Axios from 'axios';
 
 function CarBrowsing({
     setTotalPrice,
@@ -15,22 +16,18 @@ function CarBrowsing({
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
-
-  useEffect(() => {
-    fetch("http://localhost:3001/cars.json")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-        setIsLoaded(true);
-        setCars(result.cars);
-        setFilteredCars(result.cars);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  }, []);
+    useEffect(() => {
+        Axios.get("http://localhost:3001/cars.json")
+          .then((response) => {
+            setIsLoaded(true);
+            setCars(response.data.cars);
+            setFilteredCars(response.data.cars);
+          })
+          .catch((error) => {
+            setIsLoaded(true);
+            setError(error);
+          });
+      }, []);
 
   const addToCart = (car) => {
     const availableCars = filteredCars.filter(
