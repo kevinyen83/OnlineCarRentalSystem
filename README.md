@@ -7,9 +7,8 @@ In this project, an online car rental service was developed using React.js, Node
 
 # Framework Information
 
-1.  Front-end: React.JS, react-dom, react-hook-form, axios, Formik & Yup(Form validation)
-2.  Back-end: Node.JS
-3.  Database: MySQL, express
+1.  Front-end: React.JS, react-dom, react-hook-form, Axios, Formik & Yup(Form validation)
+2.  Back-end: Node.JS, express, MySQL
 4.  Unit test: Jest, Mock Service Worker
 
 ## Installation And Data Configuration
