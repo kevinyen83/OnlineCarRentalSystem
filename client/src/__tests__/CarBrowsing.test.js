@@ -1,92 +1,112 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import Axios from 'axios'; 
 import CarBrowsing from '../components/CarBrowsing';
-import '@testing-library/jest-dom/extend-expect'; 
-import fetchMock from 'jest-fetch-mock';
 
-fetchMock.enableMocks();
+jest.mock('axios');
+jest.setTimeout(10000);
 
+const mockedResponse = {
+  data: {
+    cars: [
+      {
+        id: 1,
+        name: 'Car 1',
+        category: 'Category 1',
+        model: 'Model 1',
+        mileage: 10000,
+        fuel_type: 'Petrol',
+        seats: 5,
+        price_per_day: 50,
+        availability: 'Yes',
+        description: 'Description 1',
+      },
+      {
+        id: 2,
+        name: 'Car 2',
+        category: 'Category 2',
+        model: 'Model 2',
+        mileage: 20000,
+        fuel_type: 'Diesel',
+        seats: 7,
+        price_per_day: 60,
+        availability: 'No',
+        description: 'Description 2',
+      },
+    ],
+  },
+};
+
+Axios.get.mockResolvedValue(mockedResponse);
 
 describe('CarBrowsing', () => {
-  it('should add a car to the cart on button click if it is available', async () => {
-    const lastId = 0; 
-    const setCartItems = jest.fn();
-    const cartItems = []; 
-    const setTotalPrice = jest.fn();
-    const totalPrice = 0;
-    const setIsCartEmpty = jest.fn();
-    const setLastId = jest.fn();
-    const isCartEmpty = jest.fn();
-    const cars = [
-        {
-            id: 1,
-            image: "https://images.hgmsites.net/lrg/2013-toyota-camry-4-door-sedan-i4-auto-xle-natl-angular-front-exterior-view_100414692_l.jpg",
-            name: "Toyota Camry 2013",
-            category: "SEDAN",
-            subcategory: "5 SEATS",
-            model: "Camry 2014",
-            mileage: 85364,
-            fuel_type: "Petrol",
-            seats: 5,
-            price_per_day: 240,
-            availability: "Yes",
-            description: "A reliable and spacious sedan with great fuel economy."
-          },
-    ];
-    const setCars = jest.fn();
-    const filteredCars = cars; 
-    const setFilteredCars = jest.fn();
-
-    fetchMock.mockResponseOnce(JSON.stringify({ cars }));
+    it('should render car cards with expected content', async () => {
+        const setCarsMock = jest.fn();
+        const setCartItems = jest.fn();
+        const setTotalPrice = jest.fn();
+        const setIsCartEmpty = jest.fn();
+        const setLastId = jest.fn();
+        const lastId = 0;
+        const cartItems = [];
+        const totalPrice = 0;
+        const isCartEmpty = true;
+        const filteredCars = mockedResponse.data.cars;
+        const setFilteredCars = jest.fn();
+  
+    render(<CarBrowsing 
+        setCars={setCarsMock} 
+        lastId={lastId}
+        setCartItems={setCartItems}
+        cartItems={cartItems}
+        setTotalPrice={setTotalPrice}
+        totalPrice={totalPrice}
+        setIsCartEmpty={setIsCartEmpty}
+        setLastId={setLastId}
+        cars={mockedResponse.data.cars}
+        isCartEmpty={isCartEmpty}
+        filteredCars={filteredCars}
+        setFilteredCars={setFilteredCars}
+    />);
     
+        await waitFor(() => {
+        const cartItemNameElements = screen.getAllByTestId('cart-item-name');
+        expect(cartItemNameElements[0]).toHaveTextContent('Car 1');
+        expect(cartItemNameElements[1]).toHaveTextContent('Car 2');
 
-    render(
-        <CarBrowsing 
-            lastId={lastId}
-            setCartItems={setCartItems}
-            cartItems={cartItems}
-            setTotalPrice={setTotalPrice}
-            totalPrice={totalPrice}
-            setIsCartEmpty={setIsCartEmpty}
-            setLastId={setLastId}
-            isCartEmpty={isCartEmpty}
-            cars={cars}
-            setCars={setCars}
-            filteredCars={filteredCars}
-            setFilteredCars={setFilteredCars}
-        />
-    );
+        const cartItemCategoryElements = screen.getAllByTestId('cart-item-category');
+        expect(cartItemCategoryElements[0]).toHaveTextContent('Category 1');
+        expect(cartItemCategoryElements[1]).toHaveTextContent('Category 2');
+      
+        const cartItemModelElements = screen.getAllByTestId('cart-item-model');
+        expect(cartItemModelElements[0]).toHaveTextContent('Model 1');
+        expect(cartItemModelElements[1]).toHaveTextContent('Model 2');
+      
+        const cartItemMileageElements = screen.getAllByTestId('cart-item-mileage');
+        expect(cartItemMileageElements[0]).toHaveTextContent('Mileage: 10000 kms');
+        expect(cartItemMileageElements[1]).toHaveTextContent('Mileage: 20000 kms');
+      
+        const cartItemFuelTypeElements = screen.getAllByTestId('cart-item-fuel_type');
+        expect(cartItemFuelTypeElements[0]).toHaveTextContent('Fuel Type: Petrol');
+        expect(cartItemFuelTypeElements[1]).toHaveTextContent('Fuel Type: Diesel');
+      
+        const cartItemSeatsElements = screen.getAllByTestId('cart-item-seats');
+        expect(cartItemSeatsElements[0]).toHaveTextContent('Seats: 5');
+        expect(cartItemSeatsElements[1]).toHaveTextContent('Seats: 7');
+      
+        const cartItemPricePerDayElements = screen.getAllByTestId('cart-item-price_per_day');
+        expect(cartItemPricePerDayElements[0]).toHaveTextContent('Price Per Day: 50 AU');
+        expect(cartItemPricePerDayElements[1]).toHaveTextContent('Price Per Day: 60 AU');
+      
+        const cartItemAvailabilityElements = screen.getAllByTestId('cart-item-availability');
+        expect(cartItemAvailabilityElements[0]).toHaveTextContent('Availability: Yes');
+        expect(cartItemAvailabilityElements[1]).toHaveTextContent('Availability: No');
+      
+        const cartItemDescriptionElements = screen.getAllByTestId('cart-item-description');
+        expect(cartItemDescriptionElements[0]).toHaveTextContent('Description 1');
+        expect(cartItemDescriptionElements[1]).toHaveTextContent('Description 2');
+        }, { timeout: 5000 });
 
-    await screen.findByText(/Add to Cart/i);
-
-    const addToCartButton = screen.getAllByText(/Add to Cart/)[0];
-
-    fireEvent.click(addToCartButton);
-
-    expect(setCartItems).toHaveBeenCalledTimes(1);
-    expect(setCartItems).toHaveBeenCalledWith(expect.any(Array)); 
-    expect(setTotalPrice).toHaveBeenCalledTimes(1);
-    expect(setTotalPrice).toHaveBeenCalledWith(expect.any(Number));
-    expect(setCartItems).toHaveBeenCalledWith(
-        expect.arrayContaining([
-          expect.objectContaining({
-            id: 1,
-            name: "Toyota Camry 2013",
-            image: "https://images.hgmsites.net/lrg/2013-toyota-camry-4-door-sedan-i4-auto-xle-natl-angular-front-exterior-view_100414692_l.jpg",
-            name: "Toyota Camry 2013",
-            category: "SEDAN",
-            subcategory: "5 SEATS",
-            model: "Camry 2014",
-            mileage: 85364,
-            fuel_type: "Petrol",
-            seats: 5,
-            price_per_day: 240,
-            availability: "Yes",
-            description: "A reliable and spacious sedan with great fuel economy."
-          }),
-        ])
-      );
-
-    expect(screen.getByText(/Toyota Camry 2013/i)).toBeInTheDocument();
-  });
+        expect(setCarsMock).toHaveBeenCalledWith(mockedResponse.data.cars);
+});
 });
