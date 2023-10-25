@@ -25,16 +25,18 @@ To install and run the project, follow these steps:
 6.  In the .env file, paste and change the value as follows:
 
     ```javascript
-    USER=YOUR MySQL USER NAME
-    HOST=YOUR MySQL HOST
-    PASSWORD=YOUR MySQL PASSWORD
+    DB_USER=YOUR MySQL USER NAME
+    DB_HOST=YOUR MySQL HOST
+    DB_PASSWORD=YOUR MySQL PASSWORD
     DATABASE=YOUR MySQL DATABASE
     PORT=3001
     DB_PORT=3306
     ```
 
+\*\* Please refer to this document if you don't know how to create a MySQL database: https://dev.mysql.com/doc/refman/8.0/en/creating-database.html
+
 7.  Return to the "Client" file, and start the front-end project with `npm start`.
-8.  Return to the "Client" file, and start the back-end project with `npm start`.
+8.  Return to the "Server" file, and start the back-end project with `node index.js`.
 
 ## Action Items
 
