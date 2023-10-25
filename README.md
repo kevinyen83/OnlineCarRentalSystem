@@ -41,3 +41,5 @@ To install and run the project, follow these steps:
 - [x] Use validation library to manage form validation parts.
 - [x] Add unit tests
 - [ ] Add Integrated tests by Cypress
+- [ ] Complete the full functionality of MSW
+
