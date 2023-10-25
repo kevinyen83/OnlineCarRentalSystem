@@ -2,15 +2,13 @@
 
 ![Alt text](https://github.com/kevinyen83/OnlineCarRentalSystem/blob/main/client/screenshots/homepage.png)
 
-This is an assignment for UTS Master of IT, which achieved a High Distinction grade and was invited to participate in the software engineering showcase of the 2023 UTS Tech Festival.
-
+This is my side project to enhance my full-stack development skills and write unit tests.
 In this project, an online car rental service was developed using React.js, Node.js, and MySQL. User research and usability testing were conducted to improve the user experience in major user flows.
 
 # Framework Information
 
-1.  Front-end: React.JS, react-dom, react-hook-form, axios, Formik & Yup(Form validation)
-2.  Back-end: Node.JS
-3.  Database: MySQL, express
+1.  Front-end: React.JS, react-dom, react-hook-form, Axios, Formik & Yup(Form validation)
+2.  Back-end: Node.JS, express, MySQL
 4.  Unit test: Jest, Mock Service Worker
 
 ## Installation And Data Configuration
